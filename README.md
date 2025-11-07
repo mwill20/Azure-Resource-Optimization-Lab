@@ -78,13 +78,49 @@ See [`monitoring/alerts.md`](monitoring/alerts.md) for detailed portal configura
 
 ## 📸 Screenshots
 
-Add portal screenshots to the `screenshots/` directory:
+Visual documentation of the deployed infrastructure and monitoring configuration:
 
-- Resource Group with tags applied
-- Successful ARM template deployment
-- VM Overview page (DNS visible)
-- Configured alert rules
-- Azure Monitor Insights enabled
+### Screenshot 1 — Resource Group Overview
+![Resource Group Overview](screenshots/01-resource-group-overview.png)
+
+**Purpose:**  
+This view verifies successful deployment of all Azure resources created via the ARM template, including VM, VNet, NSG, NIC, Public IP, and monitoring artifacts. It demonstrates organized resource grouping, consistent tagging, and compliance with naming conventions for easy lifecycle management.
+
+### Screenshot 2 — ARM Template Deployment Success
+![Deployment Success](screenshots/02-deployment-success.png)
+
+**Purpose:**  
+Confirms successful end-to-end Infrastructure-as-Code (IaC) deployment using an Azure Resource Manager template. It validates that the configuration was executed declaratively and that all dependent resources were provisioned automatically and consistently.
+
+### Screenshot 3 — Virtual Machine Overview
+![VM Overview](screenshots/03-vm-overview-with-dns.png)
+
+**Purpose:**  
+Provides evidence that the virtual machine vm-app is operational with a valid DNS name and public IP, proving external accessibility. Shows correct configuration of size, OS (Ubuntu 22.04), region, and tagging — confirming a properly parameterized deployment.
+
+### Screenshot 4 — Public IP Configuration
+![Public IP Config](screenshots/04-public-ip-config.png)
+
+**Purpose:**  
+Demonstrates correct public IP resource configuration with static allocation, Standard SKU, and custom DNS label (mwoptlab.westus3.cloudapp.azure.com). This verifies production-grade networking settings for stability, reliability, and name-resolution consistency.
+
+### Screenshot 5 — Azure Monitor Alert Rules
+![Alert Rules](screenshots/05-alert-rules-list.png)
+
+**Purpose:**  
+Shows proactive operational monitoring through metric-based alert rules. The configuration detects high CPU (> 85%) and high Disk I/O (> 300 Ops/s) conditions, illustrating how cost-efficient VM types can still achieve enterprise-level observability.
+
+### Screenshot 6 — VM Insights Dashboard
+![VM Insights](screenshots/06-vm-insights-dashboard.png)
+
+**Purpose:**  
+Displays real-time telemetry for CPU, memory, and disk utilization gathered via Azure Monitor Agent. The visible performance spikes confirm that monitoring pipelines, data-collection rules, and visualization components are working as intended.
+
+### Screenshot 7 — Network Security Group Rules
+![NSG Rules](screenshots/07-nsg-rules.png)
+
+**Purpose:**  
+This NSG configuration enforces least-privilege access: only SSH (port 22/TCP) is allowed for administrative connectivity, while all other inbound traffic is denied by default. This validates secure perimeter control for the deployed VM and aligns with cloud security best practices.
 
 ---
 
