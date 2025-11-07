@@ -2,6 +2,7 @@
 
 # ☁️ Azure Resource Optimization Lab
 
+[![ARM Template CI](https://github.com/mwill20/Azure-Resource-Optimization-Lab/actions/workflows/validate-arm.yml/badge.svg)](https://github.com/mwill20/Azure-Resource-Optimization-Lab/actions/workflows/validate-arm.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoft-azure&logoColor=white)](https://azure.microsoft.com/)
 [![ARM Template](https://img.shields.io/badge/ARM-Template-blue)](./arm-template/vm-deploy.json)
