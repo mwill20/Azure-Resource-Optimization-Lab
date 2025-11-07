@@ -1,0 +1,68 @@
+# Azure credentials and secrets
+*.publishsettings
+*.azureProfile
+*.publishconfig
+.azure/
+
+# Local configuration files
+*.env
+.env.local
+.env.*.local
+local.settings.json
+appsettings.Development.json
+
+# ARM template parameter files with secrets
+*.parameters.json
+
+# Azure Functions
+__blobstorage__
+__queuestorage__
+__azurite_db*__.json
+
+# VS Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# IDEs
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Terraform (if added later)
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Node modules (if added later)
+node_modules/
+
+# Python (if added later)
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Build outputs
+dist/
+build/
+*.zip
+
+# Screenshots with sensitive info (exclude specific patterns)
+screenshots/*sensitive*
+screenshots/*password*
+screenshots/*secret*

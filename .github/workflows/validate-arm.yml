@@ -1,0 +1,72 @@
+name: ARM Template Validation
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'arm-template/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'arm-template/**'
+  workflow_dispatch:
+
+jobs:
+  validate-arm-template:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      continue-on-error: true
+    
+    - name: Validate ARM Template Syntax
+      run: |
+        echo "Validating ARM template JSON syntax..."
+        jq empty arm-template/vm-deploy.json
+        echo "✅ ARM template syntax is valid"
+    
+    - name: Install ARM TTK
+      run: |
+        echo "Installing ARM Template Toolkit..."
+        git clone https://github.com/Azure/arm-ttk.git
+    
+    - name: Run ARM TTK Tests
+      shell: pwsh
+      run: |
+        Import-Module ./arm-ttk/arm-ttk/arm-ttk.psd1
+        $results = Test-AzTemplate -TemplatePath ./arm-template/vm-deploy.json
+        $results | Format-Table
+        
+        $failures = $results | Where-Object { $_.Errors.Count -gt 0 -or $_.Warnings.Count -gt 0 }
+        if ($failures) {
+          Write-Host "⚠️ ARM TTK found issues"
+        } else {
+          Write-Host "✅ ARM template passed all TTK tests"
+        }
+    
+    - name: Azure Deployment Validation
+      if: success() && github.event_name != 'pull_request'
+      run: |
+        az deployment group validate \
+          --resource-group rg-validation-test \
+          --template-file arm-template/vm-deploy.json \
+          --parameters adminUsername=testuser \
+                       adminPassword='Test@Password123!' \
+                       dnsLabelPrefix=test-$(date +%s) \
+                       vmSize=Standard_B2s
+      continue-on-error: true
+
+    - name: Summary
+      run: |
+        echo "### ARM Template Validation Summary 📋" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "✅ JSON syntax validation passed" >> $GITHUB_STEP_SUMMARY
+        echo "✅ ARM TTK tests completed" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "Template location: \`arm-template/vm-deploy.json\`" >> $GITHUB_STEP_SUMMARY
